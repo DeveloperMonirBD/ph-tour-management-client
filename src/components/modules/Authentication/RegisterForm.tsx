@@ -9,14 +9,14 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
+import Password from "@/components/ui/Password";
 import { cn } from "@/lib/utils";
+import { useRegisterMutation } from "@/redux/features/auth/auth.api";
+import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { Link, useNavigate } from "react-router";
-import { z } from "zod";
-import { zodResolver } from "@hookform/resolvers/zod";
-import Password from "@/components/ui/Password";
-import { useRegisterMutation } from "@/redux/features/auth/auth.api";
 import { toast } from "sonner";
+import { z } from "zod";
 
 const registerSchema = z
   .object({
@@ -37,10 +37,13 @@ const registerSchema = z
     path: ["confirmPassword"],
   });
 
+
+
 export function RegisterForm({
   className,
   ...props
 }: React.HTMLAttributes<HTMLDivElement>) {
+  
   const [register] = useRegisterMutation();
   const navigate = useNavigate();
 
@@ -54,6 +57,7 @@ export function RegisterForm({
     },
   });
 
+  // onsubmit 
   const onSubmit = async (data: z.infer<typeof registerSchema>) => {
     const userInfo = {
       name: data.name,
@@ -81,8 +85,12 @@ export function RegisterForm({
       </div>
 
       <div className="grid gap-6">
+
+        {/* form  */}
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+
+            {/* name */}
             <FormField
               control={form.control}
               name="name"
@@ -99,6 +107,8 @@ export function RegisterForm({
                 </FormItem>
               )}
             />
+
+            {/* email */}
             <FormField
               control={form.control}
               name="email"
@@ -119,6 +129,8 @@ export function RegisterForm({
                 </FormItem>
               )}
             />
+
+            {/* password  */}
             <FormField
               control={form.control}
               name="password"
@@ -135,6 +147,8 @@ export function RegisterForm({
                 </FormItem>
               )}
             />
+
+            {/* conform password  */}
             <FormField
               control={form.control}
               name="confirmPassword"
@@ -151,6 +165,8 @@ export function RegisterForm({
                 </FormItem>
               )}
             />
+            
+            {/* submit button  */}
             <Button type="submit" className="w-full">
               Submit
             </Button>
